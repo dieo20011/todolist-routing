@@ -4,7 +4,6 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  FormControl,
 } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../local-storage.service';
 import * as moment from 'moment';
 import { UserService } from '../user.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-todo-list',
@@ -158,6 +158,20 @@ export class TodoListComponent {
 
   logout() {
     this.router.navigate(['/login']);
+  }
+  exportToExcel() {
+    const data = this.listItems.map((item) => [item.value, item.createdAt]);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const excelBlob: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    const fileName: string = 'todo-list.xlsx';
+    const fileUrl: string = URL.createObjectURL(excelBlob);
+    const link: HTMLAnchorElement = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(fileUrl);
   }
   
 }
