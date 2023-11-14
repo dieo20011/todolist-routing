@@ -8,10 +8,23 @@
       <div class="input-box">
         <input type="text" formControlName="email" required />
         <span>Email</span>
+        <div *ngIf="getFormControl('email')?.invalid && (getFormControl('email')?.dirty || getFormControl('email')?.touched)">
+          <div *ngIf="getFormControl('email')?.errors?.['required']" class="error-text">
+            Email is required.
+          </div>
+          <div *ngIf="getFormControl('email')?.errors?.['email']" class="error-text">
+            Please enter a valid email address.
+          </div>
+        </div>
       </div>
       <div class="input-box">
         <input type="password" formControlName="password" required />
         <span>Password</span>
+        <div *ngIf="getFormControl('password')?.invalid && (getFormControl('password')?.dirty || getFormControl('password')?.touched)">
+            <div *ngIf="getFormControl('password')?.errors?.['required']" class="error-text">
+                Password is required
+            </div>
+        </div>
       </div>
       <div *ngIf="loginError" class="error-message">
         Invalid email or password. Please try again.

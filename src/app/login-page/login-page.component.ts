@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,13 +14,15 @@ export class LoginPageComponent {
   loginForm: FormGroup;
   loginError = false;
 
-  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {
-    this.loginForm = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
+  constructor(private formBuilder: FormBuilder,private userService: UserService, private router: Router, private toastr: ToastrService) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
-
+  getFormControl(controlName: string){
+    return this.loginForm.get(controlName);
+  }
   login() {
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
