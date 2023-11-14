@@ -9,7 +9,7 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 
 
 const routes: Routes =[
-  {path: 'login', component: LoginPageComponent},
+  {path: 'login', component: LoginPageComponent, },
   {path: 'register', component: RegisterPageComponent},
   {path: 'list', component: TodoListComponent, canActivate: [todolistGuard], data:{rolesAllowed: ['list']}},
   {path: '', redirectTo: '/login', pathMatch: 'full'},// default route when starting web

@@ -74,7 +74,6 @@ export class TodoListComponent {
       const value = params['value'];
       if (index && value) {
         this.updateItem(Number(index), value);
-        this.clearQueryParams();
       }
     });
     // for search feature
@@ -92,6 +91,9 @@ export class TodoListComponent {
       this.translate.use(savedLanguage);
       console.log(this.selectedLanguage);
     }
+  }
+  addNewItem(newItem: any) {
+    FAKE_DATA.push(newItem);
   }
   //push value to /edit
   editItem(item: { value: string; createdAt: Date }) {
@@ -159,19 +161,18 @@ export class TodoListComponent {
   logout() {
     this.router.navigate(['/login']);
   }
-  exportToExcel() {
-    const data = this.listItems.map((item) => [item.value, item.createdAt]);
-    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const excelBlob: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-    const fileName: string = 'todo-list.xlsx';
-    const fileUrl: string = URL.createObjectURL(excelBlob);
-    const link: HTMLAnchorElement = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName;
-    link.click();
-    URL.revokeObjectURL(fileUrl);
-  }
   
+  exportExcel(): void {
+    const dataToExport = this.listItems.map(item => ({
+      'Value': item.value,
+      'CreatedAt': item.createdAt.toISOString() // Định dạng ngày giờ
+    }));
+  
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  
+    const fileName = 'exported_data.xlsx';
+    XLSX.writeFile(wb, fileName);
+  }
 }

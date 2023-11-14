@@ -66,7 +66,6 @@ export class TodoItemComponent {
       this.router.navigate(['/list'], { queryParams: params });
       console.log(params)
       this.addItem.emit(newItem);
-      this.todoForm.reset();
     }
   }
   getUpdatedItem() {
@@ -87,10 +86,6 @@ export class TodoItemComponent {
     this.router.navigate(['/list'], { queryParams });
   }
   //clear query URL
-  clearQueryParams() {
-    const queryParams: Params = { value: null, createdAt: null };
-    this.router.navigate([], { queryParams });
-  }
   //back to previous URL
   goBack(): void {
     this.location.back();
