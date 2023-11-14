@@ -1,13 +1,14 @@
-body {
+  .main{
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background-image: url('../../assets/Login.png');
     background-size: cover;
     background-position: center;
   }
-  
   .wrapper {
+   
     width: 570px;
     background-color: #eeeeee;
     color: black;
