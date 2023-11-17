@@ -13,6 +13,7 @@ import { LocalStorageService } from '../local-storage.service';
 import * as moment from 'moment';
 import { UserService } from '../user.service';
 import * as XLSX from 'xlsx';
+import { TodoListService } from './todo-list.serivce';
 
 @Component({
   selector: 'app-todo-list',
@@ -21,10 +22,8 @@ import * as XLSX from 'xlsx';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoListComponent {
-  listItems: { value: string; createdAt: Date }[] = FAKE_DATA.map((item) => ({
-    value: item.value,
-    createdAt: moment(item.createdAt).toDate(),
-  }));
+  listItems: { value: string; createdAt: Date }[] = [];
+
   dataSource: MatTableDataSource<{ value: string; createdAt: Date }>;
 
   languages: { key: string; value: string }[] = [
@@ -45,7 +44,8 @@ export class TodoListComponent {
     private router: Router,
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
-    private userService: UserService
+    private userService: UserService,
+    private todoListApiService: TodoListService
   ) {
     this.todoForm = this.formBuilder.group({
       newItem: ['', [Validators.required]],
@@ -91,10 +91,25 @@ export class TodoListComponent {
       this.translate.use(savedLanguage);
       console.log(this.selectedLanguage);
     }
+    this.loadToDoList();
   }
-  addNewItem(newItem: any) {
-    FAKE_DATA.push(newItem);
+  
+  loadToDoList() {
+    this.todoListApiService.getToDoList().subscribe(
+      (data: { value: string; createdAt: string }[]) => {
+        this.listItems = data.map((item) => ({
+          value: item.value,
+          createdAt: moment(item.createdAt).toDate(),
+        }));
+        this.dataSource.data = this.listItems; // Cập nhật dataSource với dữ liệu từ API
+      },
+      (error) => {
+        console.error('Error fetching ToDo list:', error);
+      }
+    );
   }
+  
+  
   //push value to /edit
   editItem(item: { value: string; createdAt: Date }) {
     const index = this.listItems.findIndex(

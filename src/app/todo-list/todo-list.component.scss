@@ -1,21 +1,21 @@
-
 .todo-container {
-  max-width: 500px;
- margin: 0 auto;
+  margin: 0 auto;
+  max-width: 600px;
+
 }
 .todo-container .title {
   text-align: center;
 }
-.button_group{
+.button_group {
   display: flex;
-  gap:10px
+  gap: 10px;
 }
 
-.button_input{
+.button_input {
   display: flex;
-  gap:20px
+  gap: 20px;
 }
-.header{
+.header {
   margin-top: 50px;
   margin-bottom: 50px;
 }
@@ -28,8 +28,6 @@
   align-items: center;
   margin-top: 20px;
 }
-
-
 
 .header {
   margin-top: 5px;
@@ -63,47 +61,47 @@
   cursor: pointer;
 }
 
-table{
+table {
   background-color: transparent;
   color: white;
-  padding:10px 0 10px 0;
+  padding: 10px 0 10px 0;
   border-radius: 5px;
   border: 2px solid white;
-  
 }
-table mat-row, table mat-header-row{
+table mat-row,
+table mat-header-row {
   color: white;
   font-weight: 500;
   border-bottom: 1px solid #888;
 }
-table mat-row{
+table mat-row {
   padding-block: 5px;
 }
-table mat-row:last-child{
+table mat-row:last-child {
   border-bottom: none;
 }
-ng-container{
+ng-container {
   background-color: red;
 }
-.user-info{
+.user-info {
   margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  span{
+  span {
     border: 1px solid green;
     background-color: transparent;
     padding: 10px 10px;
     border-radius: 10px;
     color: white;
   }
-  .language{
+  .language {
     color: white;
     font-weight: 800;
     border-radius: 10px;
     margin-right: 10px;
     background: transparent;
-    border: 2px solid #FFCC33;
+    border: 2px solid #ffcc33;
     padding: 0px 10px;
     text-align: center;
   }
